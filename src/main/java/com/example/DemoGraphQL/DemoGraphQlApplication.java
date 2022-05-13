@@ -3,6 +3,7 @@ package com.example.DemoGraphQL;
 import com.example.DemoGraphQL.repository.TrainEventRepository;
 import com.example.DemoGraphQL.resolver.Mutation;
 import com.example.DemoGraphQL.resolver.Query;
+import com.example.DemoGraphQL.resolver.Subscription;
 import graphql.ExceptionWhileDataFetching;
 import graphql.GraphQLError;
 import graphql.kickstart.execution.error.GraphQLErrorHandler;
@@ -31,4 +32,10 @@ public class DemoGraphQlApplication extends SpringBootServletInitializer {
 	public Mutation mutation(TrainEventRepository trainEventRepository) {
 		return new Mutation(trainEventRepository);
 	}
+
+	@Bean
+	public Subscription subscription(TrainEventRepository trainEventRepository) {
+		return new Subscription(trainEventRepository);
+	}
+
 }

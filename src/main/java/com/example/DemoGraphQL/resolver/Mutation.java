@@ -11,7 +11,7 @@ public class Mutation implements GraphQLMutationResolver {
         this.trainEventRepository = trainEventRepository;
     }
 
-    public TrainEvent addTrainEvent( Long trainId, String currentStation, String time,String nextStation) {
+    public TrainEvent addTrainEvent(Long trainId, String currentStation, String time,String nextStation) {
         TrainEvent trainEvent = new TrainEvent();
         trainEvent.setTrainId(trainId);
         trainEvent.setCurrentStation(currentStation);

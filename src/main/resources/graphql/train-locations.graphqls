@@ -35,3 +35,11 @@ type Mutation {
 #type Subscription {
 #    trainReaching (stationId : ID!) : TrainEvent!
 #}
+
+#type Subscription {
+#    trainReaching : TrainEvent!
+#}
+
+type Subscription {
+    trainReaching (nextStation: String) : TrainEvent!
+}
