@@ -7,44 +7,50 @@ import graphql.kickstart.tools.GraphQLSubscriptionResolver;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.reactivestreams.Publisher;
-import org.reactivestreams.Subscriber;
 import reactor.core.publisher.Flux;
 
 import java.time.Duration;
 import java.util.List;
-import java.util.Random;
-import java.util.logging.Logger;
 
 public class Subscription implements GraphQLSubscriptionResolver {
 
-    //Logger logger = new Logger(Subscription.class);
     private static final Log log = LogFactory.getLog(Subscription.class);
-    private Flux<TrainEvent> trainReaching1;
     private TrainEventRepository trainEventRepository;
 
-
     public Subscription(TrainEventRepository trainEventRepository) {
+
         this.trainEventRepository = trainEventRepository;
     }
 
     public Publisher<TrainEvent> trainReaching(String nextStation) {
-        Random random = new Random();
+
+        log.info("in trainReaching method");
+
+        // wait until any entry is added to match nextStation
+        while (Mutation.subscriptionInitiated.get(nextStation) == false) {
+            // loop to wait
+        }
+        //subscriptionInitiated.clear();
+        //initialize other all NextStations here to false again
 
         Flux<TrainEvent> map;
         map = Flux.interval(Duration.ofSeconds(1))
-                .map(num -> {
-                    log.info("TTFFF");
-                   // TrainEvent trainEventById1 = trainEventRepository.findById();
-
-                    List<TrainEvent> all = trainEventRepository.findAll();
-                    return all.get(all.size()-1);
-
-//                    TrainEvent trainEvent = new TrainEvent(random.nextLong());
-//                    trainEvent.setTime("12:33:44");
-//                    trainEvent.setTrainId(33L);
-//                    trainEvent.setNextStation("ggg");
-//                    trainEvent.setCurrentStation("hhh");
- //                   return  trainEvent;
+                .map(item -> {
+                    log.info("New Flux interval iteration");
+                    List<TrainEvent> allTrainEvents = trainEventRepository.findAll();
+                    TrainEvent lastTrainEvent = allTrainEvents.get(allTrainEvents.size() - 1);
+                    if (lastTrainEvent.getNextStation().equals(nextStation)) {
+                        log.info("Event sending to to the subscriber: next station:" + lastTrainEvent.getNextStation());
+                        return lastTrainEvent;
+                    } else {
+                        log.info("Looping ");
+                        for (int i = allTrainEvents.size() - 1; i >= 0; i--) {
+                            if (allTrainEvents.get(i).getNextStation().equals(nextStation)) {
+                                return allTrainEvents.get(i);
+                            }
+                        }
+                    }
+                    return lastTrainEvent;
                 });
         return map;
     }
