@@ -1,0 +1,37 @@
+type TrainEvent {
+    eventId: ID!,
+    trainId: Int!,
+    currentStation: String!,
+    time: String,
+    nextStation: String
+}
+
+input TrainEventInput {
+    eventId: ID!,
+    trainId: String!,
+    currentStation: String!,
+    time: String,
+    nextStation: String!
+}
+
+#type Station {
+#    id: ID!,
+#    locationDistanceIndex: Int!
+#    name: String!
+#}
+
+type Query {
+    getAllTrainEvents : [TrainEvent]!
+}
+
+#type Mutation {
+#    addTrainEvent (trainEvent: TrainEventInput) : TrainEvent
+#}
+
+type Mutation {
+    addTrainEvent (trainId: String!, currentStation: String!, time: String, nextStation: String!) : TrainEvent
+}
+
+#type Subscription {
+#    trainReaching (stationId : ID!) : TrainEvent!
+#}
