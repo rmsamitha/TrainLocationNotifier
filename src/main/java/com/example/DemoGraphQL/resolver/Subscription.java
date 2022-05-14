@@ -36,14 +36,14 @@ public class Subscription implements GraphQLSubscriptionResolver {
         Flux<TrainEvent> map;
         map = Flux.interval(Duration.ofSeconds(1))
                 .map(item -> {
-                    log.info("New Flux interval iteration");
+                    //log.info("New Flux interval iteration");
                     List<TrainEvent> allTrainEvents = trainEventRepository.findAll();
                     TrainEvent lastTrainEvent = allTrainEvents.get(allTrainEvents.size() - 1);
                     if (lastTrainEvent.getNextStation().equals(nextStation)) {
-                        log.info("Event sending to to the subscriber: next station:" + lastTrainEvent.getNextStation());
+                       // log.info("Event sending to to the subscriber: next station:" + lastTrainEvent.getNextStation());
                         return lastTrainEvent;
                     } else {
-                        log.info("Looping ");
+                        //log.info("Looping ");
                         for (int i = allTrainEvents.size() - 1; i >= 0; i--) {
                             if (allTrainEvents.get(i).getNextStation().equals(nextStation)) {
                                 return allTrainEvents.get(i);

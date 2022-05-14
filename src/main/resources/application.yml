@@ -1,7 +1,30 @@
+server:
+  port: 8081
+  websocket:
+    enabled: true
+    path: /graphql
+    subscriptionEndpoint: /graphql
 graphql:
   servlet:
     mapping: /graphql
+    enabled: true
+    subscriptionEndpoint: /graphql
     corsEnabled: false
+    websocket:
+      enabled: true
+      path: /graphql
+      subscriptionEndpoint: /graphql
+  endpoint:
+    subscriptions: /graphql
+  subscriptionEndpoint: /graphql
+  playground:
+    mapping: /playground
+    endpoint: /graphql
+    subscriptionEndpoint: /graphql
+    enabled: true
+  subscriptions:
+    websocket:
+      path: /graphql
 myprops:
   artifactId: '@project.artifactId@'
   version: '@project.version@'
@@ -24,6 +47,12 @@ spring:
       ddl-auto: update
     properties.hibernate.jdbc.time_zone: UTC
     show-sql: false
+  graphql:
+    websocket:
+      path: /graphql
+      subscriptionEndpoint: /graphql
+    path: /graphql
+
 
 voyager:
   mapping: /voyager

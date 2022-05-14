@@ -6,31 +6,29 @@ type TrainEvent {
     nextStation: String
 }
 
-input TrainEventInput {
-    eventId: ID!,
-    trainId: String!,
-    currentStation: String!,
-    time: String,
-    nextStation: String!
-}
-
-#type Station {
-#    id: ID!,
-#    locationDistanceIndex: Int!
-#    name: String!
-#}
-
 type Query {
     getAllTrainEvents : [TrainEvent]!
 }
 
-#type Mutation {
-#    addTrainEvent (trainEvent: TrainEventInput) : TrainEvent
-#}
-
 type Mutation {
     addTrainEvent (trainId: String!, currentStation: String!, time: String, nextStation: String!) : TrainEvent
 }
+
+type Subscription {
+    trainReaching (nextStation: String) : TrainEvent!
+}
+
+#subscription {
+#    trainReaching (nextStation: "Cardiff") {
+#        trainId
+#        eventId
+#        currentStation
+#        nextStation
+#        time
+#    }
+#}
+
+# for testing
 
 #type Subscription {
 #    trainReaching (stationId : ID!) : TrainEvent!
@@ -40,6 +38,12 @@ type Mutation {
 #    trainReaching : TrainEvent!
 #}
 
-type Subscription {
-    trainReaching (nextStation: String) : TrainEvent!
-}
+#type Mutation {
+#    addTrainEvent (trainEvent: TrainEventInput) : TrainEvent
+#}
+
+#type Station {
+#    id: ID!,
+#    locationDistanceIndex: Int!
+#    name: String!
+#}

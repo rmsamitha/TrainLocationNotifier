@@ -23,7 +23,9 @@ public class DemoGraphQlApplication extends SpringBootServletInitializer {
         Mutation.subscriptionInitiated.put("Manchester", false);
         Mutation.subscriptionInitiated.put("Edinburgh", false);
         Mutation.subscriptionInitiated.put("Glasgow", false);
+        //SpringApplication.
         SpringApplication.run(DemoGraphQlApplication.class, args);
+
     }
 
     @Bean
